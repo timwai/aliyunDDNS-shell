@@ -2,10 +2,10 @@
 
 修改以下参数为你自己的参数
 >ACCESS_KEY_ID="你的AccessKeyId"
-	ACCESS_SECRET="你的AccessSecret"
-	DOMAIN_NAME="example.com"
-	RR="www"
-	TYPE="A"
+>ACCESS_SECRET="你的AccessSecret"
+>DOMAIN_NAME="example.com"
+>RR="www"
+>TYPE="A"
 
 也可在执行时覆盖以上参数
 ```shell

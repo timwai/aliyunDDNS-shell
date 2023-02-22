@@ -161,13 +161,21 @@ RECORDS=$(DescribeDomainRecords)
 
 if echo $RECORDS|grep -q '"'$RR'"'; then
     if echo $RECORDS|grep -q '"'$IP'"'; then
+        echo "$DOMAIN_NAME $IP"
         echo "The DNS record already exists."
         exit 1
     fi
     RECORD=`echo $RECORDS|sed 's/{"RR":"/\n\r{"RR":"/g'|sed 's/]},"PageNumber"/\n\r]},"PageNumber"/g'|grep '"'$RR'"'`
     RECORD=${RECORD#*'"RecordId":"'}
     RECORD_ID=${RECORD%'","TTL"'*}
-    UpdateDomainRecord $RECORD_ID
+    RESULT=`UpdateDomainRecord $RECORD_ID`
+    if echo $RESULT|grep -q 'RecordId'; then
+        echo "$DOMAIN_NAME $IP"
+        echo "Add DNS record success."
+    else
+        echo "$DOMAIN_NAME $IP"
+        echo "Add DNS record fail."
+    fi
 else
     AddDomainRecord
 fi

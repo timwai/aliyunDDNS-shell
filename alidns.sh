@@ -56,7 +56,8 @@ do
 done
 
 if [[ $TYPE == "AAAA" ]]; then
-    IP=`curl -sS https://ipv6.netarm.com/`
+    #IP=`curl -sS https://ipv6.netarm.com/`
+    IP=`ip -6 addr|grep dynamic|grep /128|awk '{print $2}'|cut -d'/' -f1`
 else
     IP=`curl -sS https://ipv4.netarm.com/`
 fi

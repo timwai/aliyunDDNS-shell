@@ -56,8 +56,11 @@ do
 done
 
 if [[ $TYPE == "AAAA" ]]; then
-    #IP=`curl -sS https://ipv6.netarm.com/`
-    IP=`ip -6 addr|grep dynamic|grep /128|awk '{print $2}'|cut -d'/' -f1`
+   #IP=`curl -sS https://ipv6.netarm.com/`
+    IP=`ip -6 addr|grep dynamic|grep -m1 '/128'|awk '{print $2}'|cut -d'/' -f1`
+    if [[ ! $IP ]]; then
+      IP=`ip -6 addr|grep dynamic|grep -m1 '/64'|awk '{print $2}'|cut -d'/' -f1`
+    fi
 else
     IP=`curl -sS https://ipv4.netarm.com/`
 fi
@@ -161,7 +164,9 @@ if echo $RECORDS|grep -q '"'$RR'"'; then
         echo "The DNS record already exists."
         exit 1
     fi
-    RECORD_ID=`echo $RECORDS|sed 's/{"RR":"/\n\r{"RR":"/g'|sed 's/]},"PageNumber"/\n\r]},"PageNumber"/g'|grep '"'$RR'"'|awk -F'"' '{print $30}'`
+    RECORD=`echo $RECORDS|sed 's/{"RR":"/\n\r{"RR":"/g'|sed 's/]},"PageNumber"/\n\r]},"PageNumber"/g'|grep '"'$RR'"'`
+    RECORD=${RECORD#*'"RecordId":"'}
+    RECORD_ID=${RECORD%'","TTL"'*}
     UpdateDomainRecord $RECORD_ID
 else
     AddDomainRecord

@@ -6,7 +6,7 @@
 #Email:                 tingjusting@gmail.com
 #Date:                  2023-02-17
 #FileName：             alidns.sh
-#URL:                   https://github.com/ledrsnet
+#URL:                   https://github.com/aliyunDDNS-shell
 #Description：          阿里云DDNS
 #Copyright (C):         2023 All rights reserved
 #Signature Api:         https://help.aliyun.com/document_detail/315526.html
